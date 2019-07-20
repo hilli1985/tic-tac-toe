@@ -24,6 +24,15 @@ const style = theme => ({
     msg: {
         fontWeight: 'bold',
     },
+    smallBtn: {
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
+        background: '#282C34',
+        color: '#FFFFFF',
+        textTransform: 'capitalize',
+        fontWeight: 'bold',
+        width: '10px',
+    },
 });
 
 const gameStates = {
@@ -44,6 +53,11 @@ const players = {
     PLAYER1: 'player1',
     PLAYER2: 'player2',
 };
+const resetedBoard = {
+    0: ['none', 'none', 'none'],
+    1: ['none', 'none', 'none'],
+    2: ['none', 'none', 'none'],
+};
 
 class GameBoard extends React.Component {
     state = {
@@ -53,11 +67,24 @@ class GameBoard extends React.Component {
             player2: 'o',
         },
         currentPlayer: players.PLAYER1,
-        board: {
-            0: ['none', 'none', 'none'],
-            1: ['none', 'none', 'none'],
-            2: ['none', 'none', 'none'],
-        },
+        board: resetedBoard,
+    };
+
+    setPlayerIcon = sign => {
+        if (sign === gameIcons.x)
+            this.setState({
+                playerIcon: {
+                    player1: 'x',
+                    player2: 'o',
+                },
+            });
+        else if (sign === gameIcons.o)
+            this.setState({
+                playerIcon: {
+                    player1: 'o',
+                    player2: 'x',
+                },
+            });
     };
 
     checkGameStatus = (row, col) => {
@@ -107,11 +134,7 @@ class GameBoard extends React.Component {
     startNewGame = () => {
         this.setState({
             currentGameState: gameStates.RESET,
-            board: {
-                0: ['none', 'none', 'none'],
-                1: ['none', 'none', 'none'],
-                2: ['none', 'none', 'none'],
-            },
+            board: resetedBoard,
             currentPlayer: players.PLAYER1,
         });
     };
@@ -126,13 +149,10 @@ class GameBoard extends React.Component {
         ) {
             return;
         }
-        const newRow = board[row];
         board = {
             ...board,
-            [row]: newRow.map((item, index) =>
-                index === col && item === gameIcons.none
-                    ? playerIcon[currentPlayer]
-                    : item,
+            [row]: board[row].map((item, index) =>
+                index === col ? playerIcon[currentPlayer] : item,
             ),
         };
         this.setState({board, currentGameState: gameStates.INPLAY}, () => {
@@ -149,7 +169,7 @@ class GameBoard extends React.Component {
         }
     };
 
-    boardRender = () => {
+    renderBoard = () => {
         const {board} = this.state;
         return Object.keys(board).map(row => (
             <Grid key={row} container direction="row" justify="center">
@@ -170,6 +190,10 @@ class GameBoard extends React.Component {
             currentGameState === gameStates.RESET
                 ? ' Current: ' + currentPlayer
                 : currentGameState;
+        const msg2 =
+            currentGameState === gameStates.RESET
+                ? 'Please click the sign to choose which is yours.'
+                : 'Please click reset to start a new game.';
         return (
             <Grid container spacing={3} justify="center">
                 <Grid item xs={8}>
@@ -183,10 +207,26 @@ class GameBoard extends React.Component {
                     >
                         Reset
                     </Button>
-                    <Typography className={classes.msg}>
-                        Please click reset to start a new game.
-                    </Typography>
-                    {this.boardRender()}
+                    <Button
+                        onClick={() => this.setPlayerIcon(gameIcons.x)}
+                        variant="contained"
+                        color="default"
+                        size="small"
+                        className={classes.smallBtn}
+                    >
+                        X
+                    </Button>
+                    <Button
+                        onClick={() => this.setPlayerIcon(gameIcons.o)}
+                        variant="contained"
+                        color="default"
+                        size="small"
+                        className={classes.smallBtn}
+                    >
+                        O
+                    </Button>
+                    <Typography className={classes.msg}>{msg2}</Typography>
+                    {this.renderBoard()}
                 </Grid>
             </Grid>
         );
