@@ -49,9 +49,7 @@ function Sign(props) {
     const classes = useStyles();
     const {sign} = props;
     return (
-        <div
-            className={classNames(classes[sign + '_icon'], classes.icon)}
-        >
+        <div className={classNames(classes[sign + '_icon'], classes.icon)}>
             {gameIcons[sign]}
         </div>
     );

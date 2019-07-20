@@ -67,41 +67,45 @@ class GameBoard extends React.Component {
         const {currentPlayer, playerIcon, board} = this.state;
         const currentSign = playerIcon[currentPlayer];
         if (board[row].filter(item => item === currentSign).length === 3) {
-            const newCurrentGameState = currentPlayer === players.PLAYER1
-                ? gameStates.PLAYER1WON
-                : gameStates.PLAYER2WON;
+            const newCurrentGameState =
+                currentPlayer === players.PLAYER1
+                    ? gameStates.PLAYER1WON
+                    : gameStates.PLAYER2WON;
             this.setState({currentGameState: newCurrentGameState});
         } else if (
-            board[0][col] === currentSign
-            && board[1][col] === currentSign
-            && board[2][col] === currentSign
+            board[0][col] === currentSign &&
+            board[1][col] === currentSign &&
+            board[2][col] === currentSign
         ) {
-            const newCurrentGameState = currentPlayer === players.PLAYER1
-                ? gameStates.PLAYER1WON
-                : gameStates.PLAYER2WON;
+            const newCurrentGameState =
+                currentPlayer === players.PLAYER1
+                    ? gameStates.PLAYER1WON
+                    : gameStates.PLAYER2WON;
             this.setState({currentGameState: newCurrentGameState});
         } else if (
-            board[0][0] === currentSign
-            && board[1][1] === currentSign
-            && board[2][2] === currentSign
+            board[0][0] === currentSign &&
+            board[1][1] === currentSign &&
+            board[2][2] === currentSign
         ) {
-            const newCurrentGameState = currentPlayer === players.PLAYER1
-                ? gameStates.PLAYER1WON
-                : gameStates.PLAYER2WON;
+            const newCurrentGameState =
+                currentPlayer === players.PLAYER1
+                    ? gameStates.PLAYER1WON
+                    : gameStates.PLAYER2WON;
             this.setState({currentGameState: newCurrentGameState});
         } else if (
-            board[0][2] === currentSign
-            && board[1][1] === currentSign
-            && board[2][0] === currentSign
+            board[0][2] === currentSign &&
+            board[1][1] === currentSign &&
+            board[2][0] === currentSign
         ) {
-            const newCurrentGameState = currentPlayer === players.PLAYER1
-                ? gameStates.PLAYER1WON
-                : gameStates.PLAYER2WON;
+            const newCurrentGameState =
+                currentPlayer === players.PLAYER1
+                    ? gameStates.PLAYER1WON
+                    : gameStates.PLAYER2WON;
             this.setState({currentGameState: newCurrentGameState});
         } else if (
-            board[0].filter(item => item !== gameIcons.none).length === 3
-            && board[1].filter(item => item !== gameIcons.none).length === 3
-            && board[2].filter(item => item !== gameIcons.none).length === 3
+            board[0].filter(item => item !== gameIcons.none).length === 3 &&
+            board[1].filter(item => item !== gameIcons.none).length === 3 &&
+            board[2].filter(item => item !== gameIcons.none).length === 3
         ) {
             const newCurrentGameState = gameStates.TIE;
             this.setState({currentGameState: newCurrentGameState});
@@ -127,8 +131,8 @@ class GameBoard extends React.Component {
         let {board} = this.state;
         if (
             !(
-                currentGameState === gameStates.RESET
-                || currentGameState === gameStates.INPLAY
+                currentGameState === gameStates.RESET ||
+                currentGameState === gameStates.INPLAY
             )
         ) {
             return;
@@ -136,10 +140,11 @@ class GameBoard extends React.Component {
         const newRow = board[row];
         board = {
             ...board,
-            [row]: newRow.map((item, index) => (((index === col)
-                && (item === gameIcons.none))
-                ? playerIcon[currentPlayer]
-                : item)),
+            [row]: newRow.map((item, index) =>
+                index === col && item === gameIcons.none
+                    ? playerIcon[currentPlayer]
+                    : item,
+            ),
         };
         this.setState({board, currentGameState: gameStates.INPLAY}, () => {
             this.checkGameStatus(row, col);
@@ -160,7 +165,7 @@ class GameBoard extends React.Component {
         return Object.keys(board).map(row => (
             <Grid key={row} container direction="row" justify="center">
                 {board[row].map((col, cId) => (
-                    <Grid key={cid} item>
+                    <Grid key={cId} item>
                         <Cell play={this.play} sign={col} row={row} col={cId} />
                     </Grid>
                 ))}
@@ -171,10 +176,11 @@ class GameBoard extends React.Component {
     render() {
         const {classes} = this.props;
         const {currentGameState, currentPlayer} = this.state;
-        const msg = currentGameState === gameStates.INPLAY
-            || currentGameState === gameStates.RESET
-            ? ' Current: ' + currentPlayer
-            : currentGameState;
+        const msg =
+            currentGameState === gameStates.INPLAY ||
+            currentGameState === gameStates.RESET
+                ? ' Current: ' + currentPlayer
+                : currentGameState;
         return (
             <Grid container spacing={3} justify="center">
                 <Grid item xs={8}>
