@@ -47,11 +47,12 @@ const useStyles = makeStyles(theme => ({
 
 function Sign(props) {
     const classes = useStyles();
+    const {sign} = props;
     return (
         <div
-            className={classNames(classes[props.sign + '_icon'], classes.icon)}
+            className={classNames(classes[sign + '_icon'], classes.icon)}
         >
-            {gameIcons[props.sign]}
+            {gameIcons[sign]}
         </div>
     );
 }
