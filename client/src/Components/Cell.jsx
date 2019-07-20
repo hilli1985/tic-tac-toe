@@ -57,10 +57,10 @@ function Sign(props) {
 
 export default function Cell(props) {
     const classes = useStyles();
-    const {col, row, sign, play} = props;
+    const {sign, onClick} = props;
     return (
         <Grid container justify="center">
-            <Grid onClick={() => play(row, col)} item xs={12}>
+            <Grid onClick={onClick} item xs={12}>
                 <Paper className={classes.cell}>
                     <Sign sign={sign} />
                 </Paper>

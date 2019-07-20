@@ -46,62 +46,43 @@ const players = {
 };
 
 class GameBoard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentGameState: gameStates.RESET,
-            playerIcon: {
-                player1: 'x',
-                player2: 'o',
-            },
-            currentPlayer: players.PLAYER1,
-            board: {
-                0: ['none', 'none', 'none'],
-                1: ['none', 'none', 'none'],
-                2: ['none', 'none', 'none'],
-            },
-        };
-    }
+    state = {
+        currentGameState: gameStates.RESET,
+        playerIcon: {
+            player1: 'x',
+            player2: 'o',
+        },
+        currentPlayer: players.PLAYER1,
+        board: {
+            0: ['none', 'none', 'none'],
+            1: ['none', 'none', 'none'],
+            2: ['none', 'none', 'none'],
+        },
+    };
 
     checkGameStatus = (row, col) => {
         const {currentPlayer, playerIcon, board} = this.state;
         const currentSign = playerIcon[currentPlayer];
         if (board[row].filter(item => item === currentSign).length === 3) {
-            const newCurrentGameState =
-                currentPlayer === players.PLAYER1
-                    ? gameStates.PLAYER1WON
-                    : gameStates.PLAYER2WON;
-            this.setState({currentGameState: newCurrentGameState});
+            this.setWinner();
         } else if (
             board[0][col] === currentSign &&
             board[1][col] === currentSign &&
             board[2][col] === currentSign
         ) {
-            const newCurrentGameState =
-                currentPlayer === players.PLAYER1
-                    ? gameStates.PLAYER1WON
-                    : gameStates.PLAYER2WON;
-            this.setState({currentGameState: newCurrentGameState});
+            this.setWinner();
         } else if (
             board[0][0] === currentSign &&
             board[1][1] === currentSign &&
             board[2][2] === currentSign
         ) {
-            const newCurrentGameState =
-                currentPlayer === players.PLAYER1
-                    ? gameStates.PLAYER1WON
-                    : gameStates.PLAYER2WON;
-            this.setState({currentGameState: newCurrentGameState});
+            this.setWinner();
         } else if (
             board[0][2] === currentSign &&
             board[1][1] === currentSign &&
             board[2][0] === currentSign
         ) {
-            const newCurrentGameState =
-                currentPlayer === players.PLAYER1
-                    ? gameStates.PLAYER1WON
-                    : gameStates.PLAYER2WON;
-            this.setState({currentGameState: newCurrentGameState});
+            this.setWinner();
         } else if (
             board[0].filter(item => item !== gameIcons.none).length === 3 &&
             board[1].filter(item => item !== gameIcons.none).length === 3 &&
@@ -112,6 +93,15 @@ class GameBoard extends React.Component {
         } else {
             this.togglePlayer();
         }
+    };
+
+    setWinner = () => {
+        const {currentPlayer} = this.state;
+        const newCurrentGameState =
+            currentPlayer === players.PLAYER1
+                ? gameStates.PLAYER1WON
+                : gameStates.PLAYER2WON;
+        this.setState({currentGameState: newCurrentGameState});
     };
 
     startNewGame = () => {
@@ -130,10 +120,9 @@ class GameBoard extends React.Component {
         const {currentPlayer, playerIcon, currentGameState} = this.state;
         let {board} = this.state;
         if (
-            !(
-                currentGameState === gameStates.RESET ||
-                currentGameState === gameStates.INPLAY
-            )
+            (currentGameState !== gameStates.RESET &&
+                currentGameState !== gameStates.INPLAY) ||
+            board[row][col] !== gameIcons.none
         ) {
             return;
         }
@@ -164,9 +153,9 @@ class GameBoard extends React.Component {
         const {board} = this.state;
         return Object.keys(board).map(row => (
             <Grid key={row} container direction="row" justify="center">
-                {board[row].map((col, cId) => (
-                    <Grid key={cId} item>
-                        <Cell play={this.play} sign={col} row={row} col={cId} />
+                {board[row].map((item, col) => (
+                    <Grid key={col} item>
+                        <Cell onClick={() => this.play(row, col)} sign={item} />
                     </Grid>
                 ))}
             </Grid>
@@ -194,11 +183,9 @@ class GameBoard extends React.Component {
                     >
                         Reset
                     </Button>
-                    {
-                        <Typography className={classes.msg}>
-                            Please click reset to start a new game.
-                        </Typography>
-                    }
+                    <Typography className={classes.msg}>
+                        Please click reset to start a new game.
+                    </Typography>
                     {this.boardRender()}
                 </Grid>
             </Grid>
