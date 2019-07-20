@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import GameBoard from './GameBoard';
@@ -13,10 +13,7 @@ const useStyles = makeStyles(theme => ({
         height: 'auto',
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.secondary,
-        background: '#14BDAC',
         background: '#85C225',
-        color: '#DC1E38',
         color: '#282C34',
     },
 }));
@@ -26,7 +23,7 @@ export default function MainContainer() {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={3}  >
+            <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <GameBoard />

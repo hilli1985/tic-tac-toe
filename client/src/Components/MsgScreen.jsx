@@ -1,11 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
     msg: {
-        padding: '0px',
         textAlign: 'center',
         margin: '4px',
         width: 'auto',
@@ -18,23 +17,22 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             width: '70vw',
             position: 'relative',
-            right: '30vw'
+            right: '30vw',
         },
         [theme.breakpoints.between('sm', 'md')]: {
             width: '70vw',
             position: 'relative',
-            right: '30vw'
+            right: '25vw',
         },
     },
 
 }));
 
-
 export default function MsgScreen(props) {
     const classes = useStyles();
-    const { msg } = props;
+    const {msg} = props;
     return (
-        <Grid container justify="center" spacing={3}  >
+        <Grid container justify="center" spacing={3}>
             <Grid item xs={5}>
                 <Paper className={classes.msg}>
                     {msg}
