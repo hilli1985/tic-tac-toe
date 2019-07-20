@@ -1,0 +1,25 @@
+@media screen and (max-width : 600px)
+{
+  body 
+  {
+    font-size:0.8em;
+  }
+}
+@media screen and (min-width : 800px)
+{
+  body 
+  {
+    font-size:1.2em;
+
+  }
+}
+
+.App {
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+  height: 100%;
+  width: auto;
+  padding:2.85%;
+}
+
