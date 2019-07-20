@@ -22,6 +22,7 @@
         "react"
     ],
     "rules": {
+        "linebreak-style": "off",
         "indent": [
             "error",
             4
