@@ -3,6 +3,7 @@ import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Cell from './Cell';
 import MsgScreen from './MsgScreen';
 
@@ -25,13 +26,11 @@ const style = theme => ({
         fontWeight: 'bold',
     },
     smallBtn: {
-        margin: theme.spacing(1),
         padding: theme.spacing(1),
         background: '#282C34',
         color: '#FFFFFF',
         textTransform: 'capitalize',
         fontWeight: 'bold',
-        width: '10px',
     },
 });
 
@@ -198,6 +197,7 @@ class GameBoard extends React.Component {
             <Grid container spacing={3} justify="center">
                 <Grid item xs={8}>
                     <MsgScreen msg={msg} />
+
                     <Button
                         onClick={this.startNewGame}
                         className={classes.margin}
@@ -207,24 +207,24 @@ class GameBoard extends React.Component {
                     >
                         Reset
                     </Button>
-                    <Button
-                        onClick={() => this.setPlayerIcon(gameIcons.x)}
+                    <ButtonGroup
                         variant="contained"
-                        color="default"
                         size="small"
-                        className={classes.smallBtn}
+                        aria-label="Small outlined button group"
                     >
-                        X
-                    </Button>
-                    <Button
-                        onClick={() => this.setPlayerIcon(gameIcons.o)}
-                        variant="contained"
-                        color="default"
-                        size="small"
-                        className={classes.smallBtn}
-                    >
-                        O
-                    </Button>
+                        <Button
+                            className={classes.smallBtn}
+                            onClick={() => this.setPlayerIcon(gameIcons.x)}
+                        >
+                            X
+                        </Button>
+                        <Button
+                            className={classes.smallBtn}
+                            onClick={() => this.setPlayerIcon(gameIcons.o)}
+                        >
+                            O
+                        </Button>
+                    </ButtonGroup>
                     <Typography className={classes.msg}>{msg2}</Typography>
                     {this.renderBoard()}
                 </Grid>
